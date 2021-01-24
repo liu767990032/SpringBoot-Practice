@@ -1,0 +1,59 @@
+spring:
+  servlet:
+    multipart:
+#      单个文件最大
+      max-file-size: 10MB
+#      总共最大
+      max-request-size: 100MB
+  datasource:
+    #当前数据源操作类型
+#    type: com.alibaba.druid.pool.DruidDataSource
+#    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://81.70.169.144:3306/cloud2020?useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: root
+    password: 123456
+    druid:
+      aop-patterns: com.atguigu.boot.*
+      filters: stat,wall,slf4j
+
+      stat-view-servlet:
+        enabled: true
+        login-username: admin
+        login-password: 123456
+        reset-enable: false #网页上重置功能
+
+      web-stat-filter:
+        enabled: true
+        url-pattern: /*
+        exclusions: ".js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*"
+
+      filter:
+        stat:
+          slow-sql-millis: 1000
+          log-slow-sql: true
+          enabled: true
+        wall:
+          enabled: true
+          config:
+            drop-table-allow: false
+  jdbc:
+    template:
+      query-timeout: 3
+  redis:
+    url: redis://81.70.169.144:6379
+mybatis:
+#  config-location: classpath:mybatis/mybatis-config.xml
+  mapper-locations: classpath:mybatis/mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+management:
+  endpoints:
+    enabled-by-default: true #默认开启所有监控端点
+    web:
+      exposure:
+        include: '*' #以web方式暴露所有端点
+  endpoint:
+    health:
+      show-details: always
